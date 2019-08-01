@@ -6,6 +6,7 @@ A simple CPU ISA and emulator. The ISA is
 OPCODES list
 
 NOP     00
+
 MTR     01 RR XXXX
 RTM     02 RR XXXX
 ITM     03 RR XXXX
