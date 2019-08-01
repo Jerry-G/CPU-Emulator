@@ -1,0 +1,55 @@
+#include <iostream>
+#include <string>
+#include <iterator>
+#include <cstdlib>
+
+
+int main(int argc, char* argv[]){
+  if(argc != 3){
+    printf("Usage ./main [IN FILE] [OUT FILE]\n");
+    return 1;
+  }
+  
+  std::string command = "tr -d '[:space:]' < ";
+  command += argv[1];
+  command += " >> ";
+  command += argv[1];
+  command += ".tmp";
+  std::system(command.c_str());  
+
+  std::string program;
+  std::string filename; 
+  filename += argv[1];
+  filename += ".tmp";
+  //read in file
+
+  FILE* inFile;
+  inFile = fopen (filename.c_str(),"r");
+  if(!inFile){
+    std::perror("Cannot open in file");
+    return -1;
+  }
+  int c;
+  while(c!=EOF && c!=10 && c!=13){
+    c = std::fgetc(inFile);
+    if(c!=EOF) program += c;
+  }
+  fclose(inFile);
+  command = "rm "+filename;
+  std::system(command.c_str());  
+  
+  std::string byte = "  ";
+  FILE * pFile;
+  int n;
+  pFile = fopen (argv[2],"w");
+  for(int i = 0; i < std::size(program); i+=2){
+    byte[0] = program[i];
+    byte[1] = program[i+1];
+    n = std::stoi(byte,nullptr,16);
+    fputc(n,pFile);
+    //printf("%c",n);
+  }
+  fclose (pFile);
+
+  return 0;
+}
