@@ -98,8 +98,6 @@ int main(int argc, char *argv[])
       SDL_Delay(5);
     }
 
-    //machine.printRegs();
-
     count++;
     if (machine.HALT)
       break;
@@ -111,11 +109,8 @@ int main(int argc, char *argv[])
     }
   }
   SDL_RenderPresent(renderer);
-  //printf("done\n");
   SDL_Delay(2000);
   SDL_RenderCopy(renderer, texture, NULL, NULL);
-
-  //save_texture("brock_lesner.png", renderer, texture);
 
   if (renderer)
   {
