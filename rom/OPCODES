@@ -1,27 +1,120 @@
 OPCODES list
+// memory means ram
+// RR means register
 
+
+// no operation
 NOP     00
+
+// memory to register:
+// RR represents a register
+// XXXX represents the address which holds the value that will be put in RR
+// note: this operation leave the value at XXXX intact
+// RR = RAM[XXXX]
 MTR     01 RR XXXX
+
+// register to memory:
+// RR represents a register
+// XXXX represents the address where the value of RR will be copied
+// note: this operation leave the value in RR intact
+// RAM[XXXX] = RR
 RTM     02 RR XXXX
-ITM     03 RR XXXX
+
+// immidate to register:
+// RR represents a register
+// XXXX represents the value to be placed in RR
+// RR = XXXX
+ITR     03 RR XXXX
+
+// ADD from memory:
+// RR represents a register
+// XXXX represents the address which holds the value that will be added to RR
+// RR = RR + RAM[XXXX]
 ADDM    04 RR XXXX
+
+// ADD immidate:
+// RR represents a register
+// XXXX represents the value that will be added to RR
+// RR = RR + XXXX
 ADDI    05 RR XXXX
+
+// Subtract from memory:
+// RR represents a register
+// XXXX represents the address which holds the value that will be subtracted from RR
+// RR = RR - RAM[XXXX]
 SUBM    06 RR XXXX
+
+// Subtract immidate:
+// RR represents a register
+// XXXX represents the value that will be subtracted to RR
+// RR = RR - XXXX
 SUBI    07 RR XXXX
+
+// Subtract immidate non destructive:
+// RR represents a register
+// XXXX represents the value that will be subtracted to RR
+// used to update the flags
+// RR - XXXX
 SUBIND  08 RR XXXX
+
+// AND
+// RR represents a register
+// XXXX represents the address of value that will be anded with RR
+// RR = RR & RAM[XXXX];
 AND     09 RR XXXX
+
+// OR
+// RR represents a register
+// XXXX represents the address of value that will be ored with RR
+// RR = RR | RAM[XXXX];
 OR      0A RR XXXX
+
+// XOR
+// RR represents a register
+// XXXX represents the address of value that will be xored with RR
+// RR = RR ^ RAM[XXXX];
 XOR     0B RR XXXX
+
+// NOT
+// RR represents a register
+// XXXX represents the address of value that will be not-ed
+// RR = !RAM[XXXX];
 NOT     0C RR XXXX
+
+// Shift left
+// RR represents a register
+// XXXX represents how many shifts 
+// RR = RR << XXXX;
 SHL     0D RR XXXX
+
+// Shift right
+// RR represents a register
+// XXXX represents how many shifts 
+// RR = RR >> XXXX;
 SHR     0E RR XXXX
+
+// Jump
+// RR is unused
+// XXXX represents the address to jump to
 JMP     0F RR XXXX
+
+// Jump if zero flag
+// RR is unused
+// XXXX represents the address to jump to
 JZ      10 RR XXXX
+
+// Jump if not zero flag
+// RR is unused
+// XXXX represents the address to jump to
 JNZ     11 RR XXXX
 
-DRAW    FE
-HALT    FF
+// Draw the screen
+// RR is unused
+DRAW    FE RR
 
+// Halt the machine
+// RR is unused
+HALT    FF RR
 
 
 RR table

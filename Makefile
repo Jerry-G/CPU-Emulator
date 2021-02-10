@@ -1,5 +1,5 @@
 CXX=g++
-CFLAGS=-g -lSDL2 --std=c++17
+CFLAGS=-g -lSDL2 -lSDL2_image --std=c++17
 OBJS=main.o jm.o
 
 all: jm.o main.o main
