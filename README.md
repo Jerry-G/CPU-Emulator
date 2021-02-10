@@ -2,6 +2,43 @@
 
 A simple CPU ISA and emulator. This is mostly intended for demos of what can be done with a 16 color palette ( the same palette as the Macintosh II ) and a limited ISA on a 240 x 136 screen with only 64k of ram.
 
+## DEMOS
+
+This is the color palette.
+
+![color palette image](https://raw.githubusercontent.com/Jerry-G/CPU-Emulator/master/demo/16palette.png)
+
+Using this color palette it is possible to create images like the following, and possibly even more detailed images could be made using dithering.
+
+![image of cows](https://raw.githubusercontent.com/Jerry-G/CPU-Emulator/master/demo/cows.png)
+
+![image of dog](https://raw.githubusercontent.com/Jerry-G/CPU-Emulator/master/demo/dog.png)
+
+This example self modifying program will fill the screen with magenta red orange yellow pixles. It should be noted that all code begins at address 0x1FE1 since 0x0000 to 0x1FE0 is the screen ram. `
+
+```
+1FE1: 0500    ;ADDI A BCDE
+1FE2: BCDE
+1FE3: 0200    ;RTM  A 0000
+1FE4: 0000
+1FE5: FE00    ;DRAW
+1FE6: 0503    ;ADDI B 0001
+1FE7: 0001
+1FE8: 0203    ;RTM  B 1FE4
+1FE9: 1FE4
+1FEA: 0106    ;MTR  C 1FE4
+1FEB: 1FE4
+1FEC: 0706    ;SUBI C 1FE0
+1FED: 1FE0
+1FEE: 1100    ;JNZ  1FE3
+1FEF: 1FE3
+1FF0: FF00    ;HALT
+```
+
+This code results in the following. It should be noted that since the screen is redrawn after every pixle the speed is very slow and drawing it after the entire buffer would be much faster.
+
+![gif of program running](https://raw.githubusercontent.com/Jerry-G/CPU-Emulator/master/demo/demo.gif)
+
 ## OPCODES list
 
 | operation                              | OPCODE | Format     | Action               |
