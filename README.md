@@ -14,7 +14,7 @@ Using this color palette it is possible to create images like the following, and
 
 ![image of dog](https://raw.githubusercontent.com/Jerry-G/CPU-Emulator/master/demo/dog.png)
 
-This example self modifying program will fill the screen with magenta red orange yellow pixles. It should be noted that all code begins at address 0x1FE1 since 0x0000 to 0x1FE0 is the screen ram. `
+This example self modifying program will fill the screen with magenta red orange yellow pixels. It should be noted that all code begins at address 0x1FE1 since 0x0000 to 0x1FE0 is the screen ram. `
 
 ```
 1FE1: 0500    ;ADDI A BCDE
