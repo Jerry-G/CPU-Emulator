@@ -45,7 +45,7 @@ private:
           fourPixles += bg << (i * 4);
         }
       }
-      // printf("RAM [%X] = %X\n", value, fourPixles);
+
       RAM[value] = fourPixles;
       fourPixles = 0;
       for (int i = 0; i < 4; i++) {
@@ -55,7 +55,7 @@ private:
           fourPixles += bg << (i * 4);
         }
       }
-      // printf("RAM [%X] = %X\n\n", value + 1, fourPixles);
+
       RAM[value + 1] = fourPixles;
       fourPixles = 0;
       for (int i = 0; i < 4; i++) {
@@ -65,7 +65,7 @@ private:
           fourPixles += bg << (i * 4);
         }
       }
-      // printf("RAM [%X] = %X\n", value + 0x3C, fourPixles);
+
       RAM[value + 0x3C] = fourPixles;
       fourPixles = 0;
       for (int i = 0; i < 4; i++) {
@@ -75,13 +75,12 @@ private:
           fourPixles += bg << (i * 4);
         }
       }
-      // printf("RAM [%X] = %X\n\n", value + 0x3D, fourPixles);
+
       RAM[value + 0x3D] = fourPixles;
       value += 0x3C * 2;
     }
-
-    // printf("%X\n", CHARS[(RAM[R] & 0xFF00) / 4]);
   }
+
   const uint16_t CHARS[4 * 255] = {
       0x386C, 0xC6C6, 0xFEC6, 0xC600, // A  00
       0xFCC6, 0xC6FC, 0xC6C6, 0xFC00, // B  01
@@ -501,7 +500,6 @@ public:
         IP += 2;
       break;
     case 0x20: // CHAR
-      // printf("CHAR %04X %04X\n", REG[R], VALUE);
       moveChar(REG[R], VALUE);
       IP += 2;
       break;
