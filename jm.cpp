@@ -46,9 +46,9 @@ private:
       fourPixels = 0;
       for (int i = 0; i < 16; i++) {
         if (((line) >> (15 - i)) & 0x1) {
-          fourPixels += fg << (((3 - (i % 4))) * 4);
+          fourPixels += fg << (shft[i % 4]);
         } else {
-          fourPixels += bg << (((3 - (i % 4))) * 4);
+          fourPixels += bg << (shft[i % 4]);
         }
         if (i % 4 == 3) {
           RAM[value + ramOffset[i / 4]] = fourPixels;
