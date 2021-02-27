@@ -1,6 +1,7 @@
 #include <fstream>  //file operations
 #include <iostream> // I/O
 #include <iterator> //std::size
+#include <sys/types.h>
 
 class JM {
 private:
@@ -27,56 +28,33 @@ private:
     }
   }
 
+  /// Given a register value and an immediate value place a char on screen
+  /// the high part of register is the byte id of the char (see CHARS), the low
+  /// half of the register is the foreground and background color to set
+  /// the immediate value is the address to place the char
   void moveChar(uint16_t reg, uint16_t value) {
     uint16_t c = ((reg & 0xFF00) >> 8) * 4;
-    uint16_t line = CHARS[c];
-    uint16_t fourPixles = 0;
+    uint16_t line;
+    uint16_t fourPixels = 0;
     uint8_t fg = (reg & 0x00F0) >> 4;
     uint8_t bg = (reg & 0x000F);
 
-    for (int four = 0; four < 4; four++) {
-      line = CHARS[c + four];
-
-      fourPixles = 0;
-      for (int i = 0; i < 4; i++) {
-        if (((line >> 12) >> i) & 0x1) {
-          fourPixles += fg << (i * 4);
+    u_int8_t shft[4] = {12, 8, 4, 0};
+    u_int16_t ramOffset[4] = {0, 1, 0x3C, 0x3D};
+    for (int outer = 0; outer < 4; outer++) {
+      line = CHARS[c + outer];
+      fourPixels = 0;
+      for (int i = 0; i < 16; i++) {
+        if (((line) >> (15 - i)) & 0x1) {
+          fourPixels += fg << (((3 - (i % 4))) * 4);
         } else {
-          fourPixles += bg << (i * 4);
+          fourPixels += bg << (((3 - (i % 4))) * 4);
+        }
+        if (i % 4 == 3) {
+          RAM[value + ramOffset[i / 4]] = fourPixels;
+          fourPixels = 0;
         }
       }
-
-      RAM[value] = fourPixles;
-      fourPixles = 0;
-      for (int i = 0; i < 4; i++) {
-        if (((line >> 8) >> i) & 0x1) {
-          fourPixles += fg << (i * 4);
-        } else {
-          fourPixles += bg << (i * 4);
-        }
-      }
-
-      RAM[value + 1] = fourPixles;
-      fourPixles = 0;
-      for (int i = 0; i < 4; i++) {
-        if (((line >> 4) >> i) & 0x1) {
-          fourPixles += fg << (i * 4);
-        } else {
-          fourPixles += bg << (i * 4);
-        }
-      }
-
-      RAM[value + 0x3C] = fourPixles;
-      fourPixles = 0;
-      for (int i = 0; i < 4; i++) {
-        if (((line >> 0) >> i) & 0x1) {
-          fourPixles += fg << (i * 4);
-        } else {
-          fourPixles += bg << (i * 4);
-        }
-      }
-
-      RAM[value + 0x3D] = fourPixles;
       value += 0x3C * 2;
     }
   }
@@ -499,8 +477,16 @@ public:
       else
         IP += 2;
       break;
-    case 0x20: // CHAR
-      moveChar(REG[R], VALUE);
+    case 0x20: // CHAR  currently only valid with full regs
+      switch (R % 3) {
+      case 0:
+        moveChar(REG[R / 3], VALUE);
+        break;
+      case 1:
+        break;
+      case 2:
+        break;
+      }
       IP += 2;
       break;
     case 0xFE: // DRAW
