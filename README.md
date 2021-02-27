@@ -2,7 +2,7 @@
 
 A simple CPU ISA and emulator. This is mostly intended for demos of what can be done with a 16 color palette ( the same palette as the Macintosh II ) and a limited ISA on a 240 x 136 screen with only 64k of ram.
 
-## DEMOS
+## Demos
 
 This is the color palette.
 
@@ -63,6 +63,7 @@ There is a built-in opcode to print a char to the screen. The following is a dem
 | Jump (JMP)                             | 0F     | 0F RR XXXX | IP = XXXX            |
 | Jump if zero flag is set (JZ)          | 10     | 10 RR XXXX | IP = XXXX            |
 | Jump if zero flag is not set (JNZ)     | 11     | 11 RR XXXX | IP = XXXX            |
+| CHAR                                   | 20     | 20 RR XXXX | (N/A)                |
 | Render the screen (DRAW)               | FE     | FE RR      | (Nothing)            |
 | Stop the machine (HALT)                | FF     | FF RR      | (Nothing)            |
 
