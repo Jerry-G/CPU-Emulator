@@ -35,9 +35,13 @@ This example self modifying program will fill the screen with magenta red orange
 1FF0: FF00    ;HALT
 ```
 
-This code results in the following. It should be noted that since the screen is redrawn after every pixle the speed is very slow and drawing it after the entire buffer would be much faster.
+This code results in the following. It should be noted that since the screen is redrawn after every pixel the speed is very slow and drawing it after the entire buffer would be much faster.
 
 ![gif of program running](https://raw.githubusercontent.com/Jerry-G/CPU-Emulator/master/demo/demo.gif)
+
+There is a built-in opcode to print a char to the screen. The following is a demo of this.
+
+![gif of hello world in c](https://raw.githubusercontent.com/Jerry-G/CPU-Emulator/master/demo/hello_c.gif)
 
 ## OPCODES list
 
